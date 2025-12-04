@@ -693,6 +693,30 @@
             }
         }
 
+        /* Landscape Mode - Container passt sich der Breite der Rechenaufgaben an */
+        @media (orientation: landscape) and (max-width: 1024px) {
+            body {
+                padding: 10px;
+            }
+
+            .container {
+                max-width: 100%;
+                width: fit-content;
+                min-width: 90%;
+                margin: 0 auto;
+                padding: 20px;
+            }
+
+            .exercise-area {
+                width: 100%;
+            }
+
+            .chain-row {
+                width: 100%;
+                justify-content: flex-start;
+            }
+        }
+
         @media print {
             .controls, .buttons, .header {
                 display: none !important;
