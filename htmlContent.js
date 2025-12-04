@@ -859,6 +859,11 @@ export const HTML_CONTENT = `<!DOCTYPE html>
     </div>
 
     <script>
+        // Globale Variablen ZUERST deklarieren (vor allen Funktionen!)
+        let currentExercises = [];
+        let errorCards = [];
+        let challengeCards = [];
+
         // Debug-Logging für WebView
         function debugLog(message) {
             console.log('[MatheChecker]', message);
@@ -925,10 +930,6 @@ export const HTML_CONTENT = `<!DOCTYPE html>
         let avatarGender = 'male';
         let userLevel = 1;
         let perfectSheetsInRow = 0; // Zähler für fehlerfreie Blätter in Folge
-
-        let currentExercises = [];
-        let errorCards = [];
-        let challengeCards = [];
 
         avatarGender = safeLocalStorage.getItem('avatarGender') || 'male';
         debugLog('Avatar gender: ' + avatarGender);
