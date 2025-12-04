@@ -462,9 +462,9 @@ export const HTML_CONTENT = `<!DOCTYPE html>
             }
 
             .avatar-content {
-                flex-direction: column;
+                flex-direction: row;
                 align-items: center;
-                gap: 5px;
+                gap: 8px;
             }
 
             .avatar-img {
