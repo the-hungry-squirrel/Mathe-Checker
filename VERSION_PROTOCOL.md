@@ -3,19 +3,30 @@
 **WICHTIG**: Bei JEDEM Build MUSS die versionCode erhöht werden!
 
 ## Aktueller Stand
-- **Letzte versionCode**: 19
-- **Letzte version**: 1.0.19
+- **Letzte versionCode**: 20
+- **Letzte version**: 1.0.20
 - **Datum**: 2025-12-04
 
 ## Build Historie
+
+### Version 20 (versionCode 20) - 2025-12-04
+- Fix: Portrait Layout (Level-Badge untereinander statt nebeneinander)
+- Fix: Landscape Layout (Avatar ausgeblendet, Container volle Breite)
+- Debug: Umfassendes JavaScript Error Logging hinzugefügt
+- debugLog() Funktion für WebView-Kommunikation
+- Try-Catch Blöcke in generateNewExercise() und renderExercises()
+- Alert-Dialoge bei JavaScript-Fehlern
+- Ziel: JavaScript-Probleme bei "Neues Blatt erstellen" debuggen
+- Status: In Arbeit
 
 ### Version 19 (versionCode 19) - 2025-12-04
 - Fix: Base64-Bilder direkt im HTML einbetten
 - Entfernt: Asset.loadAsync() Ansatz (funktionierte nicht in WebView)
 - Bilder werden zur Build-Zeit in Base64 konvertiert
 - Vereinfachte App.js ohne dynamisches Asset-Loading
-- Ziel: Avatare sollen endlich laden und JavaScript funktionieren
-- Status: In Arbeit
+- Avatare laden endlich!
+- ABER: "Neues Blatt erstellen" funktioniert nicht (keine Rechenaufgaben)
+- Status: Teilweise erfolgreich
 
 ### Version 18 (versionCode 18) - 2025-12-04
 - Improve mobile phone layout
@@ -72,4 +83,4 @@
 5. Committe die Änderungen
 6. DANN erst: `eas build --platform android --profile production`
 
-**NÄCHSTE versionCode muss sein: 20**
+**NÄCHSTE versionCode muss sein: 21**
