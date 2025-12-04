@@ -862,9 +862,36 @@ export const HTML_CONTENT = `<!DOCTYPE html>
     </div>
 
     <script>
+        // Debug-Logging für WebView
+        function debugLog(message) {
+            console.log('[MatheChecker]', message);
+            try {
+                if (window.ReactNativeWebView) {
+                    window.ReactNativeWebView.postMessage(JSON.stringify({type: 'log', message: message}));
+                }
+            } catch (e) {
+                console.error('Failed to post message:', e);
+            }
+        }
+
+        // Global error handler
+        window.addEventListener('error', function(event) {
+            debugLog('ERROR: ' + event.message + ' at ' + event.filename + ':' + event.lineno);
+        });
+
+        debugLog('Script started');
+
         // User-Profil-System
         let currentUser = null;
-        let userProfiles = JSON.parse(localStorage.getItem('userProfiles') || '{}');
+        let userProfiles = {};
+
+        try {
+            userProfiles = JSON.parse(localStorage.getItem('userProfiles') || '{}');
+            debugLog('LocalStorage loaded successfully');
+        } catch (e) {
+            debugLog('LocalStorage ERROR: ' + e.message);
+            userProfiles = {};
+        }
 
         // Avatar und Level-System
         let avatarGender = localStorage.getItem('avatarGender') || 'male';
@@ -1202,32 +1229,46 @@ export const HTML_CONTENT = `<!DOCTYPE html>
         }
 
         function generateNewExercise() {
-            errorCards = [];
-            document.getElementById('cardsSection').classList.remove('visible');
-            document.getElementById('mainContent').classList.remove('with-cards');
+            try {
+                debugLog('generateNewExercise() called');
 
-            // Aktiviere den Prüfen-Button wieder
-            const checkButton = document.getElementById('checkButton');
-            if (checkButton) checkButton.disabled = false;
+                errorCards = [];
+                document.getElementById('cardsSection').classList.remove('visible');
+                document.getElementById('mainContent').classList.remove('with-cards');
 
-            // Stoppe den Timer beim Erstellen eines neuen Blattes
-            if (timerInterval) {
-                clearInterval(timerInterval);
-                timerInterval = null;
+                // Aktiviere den Prüfen-Button wieder
+                const checkButton = document.getElementById('checkButton');
+                if (checkButton) checkButton.disabled = false;
+
+                // Stoppe den Timer beim Erstellen eines neuen Blattes
+                if (timerInterval) {
+                    clearInterval(timerInterval);
+                    timerInterval = null;
+                }
+                remainingSeconds = 0;
+                timerWasUsed = false;
+                document.getElementById('timerDisplay').style.display = 'none';
+                document.getElementById('stopTimerBtn').style.display = 'none';
+                document.getElementById('timerInput').disabled = false;
+                document.getElementById('timerDisplay').textContent = '';
+
+                const operation = document.getElementById('operation').value;
+                const range = parseInt(document.getElementById('range').value);
+
+                debugLog('Operation: ' + operation + ', Range: ' + range);
+
+                currentExercises = createChains(operation, range);
+                debugLog('Created ' + currentExercises.length + ' chains');
+
+                renderExercises();
+                debugLog('Exercises rendered');
+
+                savePageState();
+                debugLog('Page state saved');
+            } catch (e) {
+                debugLog('ERROR in generateNewExercise: ' + e.message);
+                alert('Fehler beim Erstellen der Aufgaben: ' + e.message);
             }
-            remainingSeconds = 0;
-            timerWasUsed = false;
-            document.getElementById('timerDisplay').style.display = 'none';
-            document.getElementById('stopTimerBtn').style.display = 'none';
-            document.getElementById('timerInput').disabled = false;
-            document.getElementById('timerDisplay').textContent = '';
-
-            const operation = document.getElementById('operation').value;
-            const range = parseInt(document.getElementById('range').value);
-
-            currentExercises = createChains(operation, range);
-            renderExercises();
-            savePageState();
         }
 
         function createChains(operation, range) {
@@ -1447,10 +1488,17 @@ export const HTML_CONTENT = `<!DOCTYPE html>
         }
 
         function renderExercises() {
-            const area = document.getElementById('exerciseArea');
-            area.innerHTML = '';
+            try {
+                debugLog('renderExercises() called');
+                const area = document.getElementById('exerciseArea');
+                if (!area) {
+                    debugLog('ERROR: exerciseArea element not found!');
+                    return;
+                }
+                area.innerHTML = '';
+                debugLog('Rendering ' + currentExercises.length + ' exercise chains');
 
-            currentExercises.forEach((chain, chainIndex) => {
+                currentExercises.forEach((chain, chainIndex) => {
                 const row = document.createElement('div');
                 row.className = 'chain-row';
                 if (chainIndex === 0) row.classList.add('active');
@@ -1513,6 +1561,12 @@ export const HTML_CONTENT = `<!DOCTYPE html>
 
                 area.appendChild(row);
             });
+
+            debugLog('Successfully rendered all exercises');
+            } catch (e) {
+                debugLog('ERROR in renderExercises: ' + e.message + ' | Stack: ' + e.stack);
+                alert('Fehler beim Anzeigen der Aufgaben: ' + e.message);
+            }
         }
 
         function checkAnswers() {
