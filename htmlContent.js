@@ -881,20 +881,51 @@ export const HTML_CONTENT = `<!DOCTYPE html>
 
         debugLog('Script started');
 
+        // Safe localStorage wrapper
+        const safeLocalStorage = {
+            getItem: function(key) {
+                try {
+                    return localStorage.getItem(key);
+                } catch (e) {
+                    debugLog('localStorage.getItem(' + key + ') failed: ' + e.message);
+                    return null;
+                }
+            },
+            setItem: function(key, value) {
+                try {
+                    localStorage.setItem(key, value);
+                    return true;
+                } catch (e) {
+                    debugLog('localStorage.setItem(' + key + ') failed: ' + e.message);
+                    return false;
+                }
+            },
+            removeItem: function(key) {
+                try {
+                    localStorage.removeItem(key);
+                    return true;
+                } catch (e) {
+                    debugLog('localStorage.removeItem(' + key + ') failed: ' + e.message);
+                    return false;
+                }
+            }
+        };
+
         // User-Profil-System
         let currentUser = null;
         let userProfiles = {};
 
         try {
-            userProfiles = JSON.parse(localStorage.getItem('userProfiles') || '{}');
-            debugLog('LocalStorage loaded successfully');
+            const stored = safeLocalStorage.getItem('userProfiles');
+            userProfiles = JSON.parse(stored || '{}');
+            debugLog('LocalStorage loaded successfully: ' + Object.keys(userProfiles).length + ' profiles');
         } catch (e) {
             debugLog('LocalStorage ERROR: ' + e.message);
             userProfiles = {};
         }
 
         // Avatar und Level-System
-        let avatarGender = localStorage.getItem('avatarGender') || 'male';
+        let avatarGender = 'male';
         let userLevel = 1;
         let perfectSheetsInRow = 0; // Zähler für fehlerfreie Blätter in Folge
 
@@ -902,17 +933,42 @@ export const HTML_CONTENT = `<!DOCTYPE html>
         let errorCards = [];
         let challengeCards = [];
 
-        // Beim Laden: Prüfe ob bereits ein User gesetzt ist
-        window.addEventListener('load', function() {
-            updateUserDropdown();
-            const lastUser = localStorage.getItem('lastUser');
-            if (lastUser && userProfiles[lastUser]) {
-                currentUser = lastUser;
-                loadUserProfile();
-                loadPageState();
+        avatarGender = safeLocalStorage.getItem('avatarGender') || 'male';
+        debugLog('Avatar gender: ' + avatarGender);
+
+        // Initialisierung - sowohl für load als auch DOMContentLoaded
+        function initializeApp() {
+            debugLog('initializeApp() called');
+            try {
+                updateUserDropdown();
+
+                const lastUser = safeLocalStorage.getItem('lastUser');
+                if (lastUser && userProfiles[lastUser]) {
+                    currentUser = lastUser;
+                    loadUserProfile();
+                    loadPageState();
+                } else {
+                    debugLog('No last user found or user not in profiles');
+                }
+
+                updateRangeOptions();
+                updateAvatar();
+                debugLog('App initialized successfully');
+            } catch (e) {
+                debugLog('ERROR in initializeApp: ' + e.message);
             }
-            updateRangeOptions();
-            updateAvatar();
+        }
+
+        // Mehrere Event-Listener für maximale Kompatibilität
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initializeApp);
+        } else {
+            // DOM already loaded
+            initializeApp();
+        }
+
+        window.addEventListener('load', function() {
+            debugLog('Window load event fired');
         });
 
         function updateUserDropdown() {
