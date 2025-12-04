@@ -3,11 +3,18 @@
 **WICHTIG**: Bei JEDEM Build MUSS die versionCode erhöht werden!
 
 ## Aktueller Stand
-- **Letzte versionCode**: 17
-- **Letzte version**: 1.0.17
+- **Letzte versionCode**: 18
+- **Letzte version**: 1.0.18
 - **Datum**: 2025-12-04
 
 ## Build Historie
+
+### Version 18 (versionCode 18) - 2025-12-04
+- Improve mobile phone layout
+- Avatar zwischen Buttons und Aufgaben auf Phones
+- Level-Badge für Mobile hinzugefügt
+- Bessere Bildschirmnutzung auf Phones
+- Status: In Arbeit
 
 ### Version 17 (versionCode 17) - 2025-12-04
 - Fix: WebView permissions und Asset-Loading
@@ -57,4 +64,4 @@
 5. Committe die Änderungen
 6. DANN erst: `eas build --platform android --profile production`
 
-**NÄCHSTE versionCode muss sein: 18**
+**NÄCHSTE versionCode muss sein: 19**
