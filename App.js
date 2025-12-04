@@ -21,18 +21,18 @@ export default function App() {
       } else {
         // Auf Mobile: Verwende den eingebetteten HTML-String
         // Lade Bilder als Assets
-        const avatarAssets = [
-          Asset.fromModule(require('./assets/ninjamale1.png')),
-          Asset.fromModule(require('./assets/ninjamale2.png')),
-          Asset.fromModule(require('./assets/ninjamale3.png')),
-          Asset.fromModule(require('./assets/ninjamale4.png')),
-          Asset.fromModule(require('./assets/ninjafemale1.png')),
-          Asset.fromModule(require('./assets/ninjafemale2.png')),
-          Asset.fromModule(require('./assets/ninjafemale3.png')),
-          Asset.fromModule(require('./assets/ninjafemale4.png')),
+        const avatarModules = [
+          require('./assets/ninjamale1.png'),
+          require('./assets/ninjamale2.png'),
+          require('./assets/ninjamale3.png'),
+          require('./assets/ninjamale4.png'),
+          require('./assets/ninjafemale1.png'),
+          require('./assets/ninjafemale2.png'),
+          require('./assets/ninjafemale3.png'),
+          require('./assets/ninjafemale4.png'),
         ];
 
-        await Promise.all(avatarAssets.map(asset => asset.downloadAsync()));
+        const avatarAssets = await Asset.loadAsync(avatarModules);
 
         // Ersetze Bildpfade im HTML
         const avatarNames = [
@@ -43,9 +43,11 @@ export default function App() {
         let modifiedHtml = HTML_CONTENT;
         avatarNames.forEach((name, index) => {
           const asset = avatarAssets[index];
+          const uri = asset.localUri || asset.uri;
+          console.log(`Replacing assets/${name}.png with ${uri}`);
           modifiedHtml = modifiedHtml.replace(
             new RegExp(`assets/${name}\\.png`, 'g'),
-            asset.localUri || asset.uri
+            uri
           );
         });
 
@@ -82,10 +84,21 @@ export default function App() {
       {htmlContent && htmlContent.type === 'html' ? (
         <WebView
           originWhitelist={['*']}
-          source={{ html: htmlContent.data }}
+          source={{ html: htmlContent.data, baseUrl: '' }}
           style={styles.webview}
           javaScriptEnabled={true}
           domStorageEnabled={true}
+          allowFileAccess={true}
+          allowFileAccessFromFileURLs={true}
+          allowUniversalAccessFromFileURLs={true}
+          mixedContentMode="always"
+          onError={(syntheticEvent) => {
+            const { nativeEvent } = syntheticEvent;
+            console.error('WebView error: ', nativeEvent);
+          }}
+          onMessage={(event) => {
+            console.log('WebView message:', event.nativeEvent.data);
+          }}
         />
       ) : null}
     </View>

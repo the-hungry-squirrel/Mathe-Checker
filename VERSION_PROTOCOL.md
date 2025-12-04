@@ -3,18 +3,25 @@
 **WICHTIG**: Bei JEDEM Build MUSS die versionCode erhöht werden!
 
 ## Aktueller Stand
-- **Letzte versionCode**: 16
-- **Letzte version**: 1.0.16
+- **Letzte versionCode**: 17
+- **Letzte version**: 1.0.17
 - **Datum**: 2025-12-04
 
 ## Build Historie
+
+### Version 17 (versionCode 17) - 2025-12-04
+- Fix: WebView permissions und Asset-Loading
+- Füge allowFileAccessFromFileURLs und allowUniversalAccessFromFileURLs hinzu
+- Verwende Asset.loadAsync() statt Asset.fromModule()
+- Debug-Logging für Bildpfad-Ersetzung
+- Status: In Arbeit
 
 ### Version 16 (versionCode 16) - 2025-12-04
 - Fix: Inline HTML string approach
 - HTML-Content wird zur Build-Zeit als JS-String eingebettet
 - Bilder werden als Assets geladen und Pfade im HTML ersetzt
-- Vermeidet alle Asset-Loading-Probleme
-- Status: In Arbeit
+- PROBLEM: Avatare laden nicht, keine Rechenzeilen, Tastatur öffnet nicht
+- Status: Teilweise funktionsfähig (öffnet sich, aber UI-Probleme)
 
 ### Version 15 (versionCode 15) - 2025-12-04
 - Fix: WebView loading using FileSystem approach
@@ -50,4 +57,4 @@
 5. Committe die Änderungen
 6. DANN erst: `eas build --platform android --profile production`
 
-**NÄCHSTE versionCode muss sein: 17**
+**NÄCHSTE versionCode muss sein: 18**
