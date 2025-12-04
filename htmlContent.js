@@ -473,8 +473,9 @@ export const HTML_CONTENT = `<!DOCTYPE html>
             }
 
             .avatar-info {
-                flex-direction: row;
-                gap: 10px;
+                flex-direction: column;
+                gap: 8px;
+                align-items: center;
             }
 
             .gender-selector {
@@ -699,19 +700,38 @@ export const HTML_CONTENT = `<!DOCTYPE html>
         /* Landscape Mode - Container passt sich der Breite der Rechenaufgaben an */
         @media (orientation: landscape) and (max-width: 1024px) {
             body {
-                padding: 10px;
+                padding: 5px;
             }
 
             .container {
-                max-width: 100%;
-                width: fit-content;
-                min-width: 90%;
+                max-width: none;
+                width: auto;
                 margin: 0 auto;
-                padding: 20px;
+                padding: 10px;
             }
 
+            /* Avatar im Landscape ausblenden */
+            .avatar-container {
+                display: none;
+            }
+
+            /* Header kompakter */
+            .header {
+                margin-bottom: 10px;
+            }
+
+            .navigation {
+                margin-bottom: 10px;
+            }
+
+            .controls {
+                margin-bottom: 10px;
+            }
+
+            /* Rechenaufgaben volle Breite */
             .exercise-area {
                 width: 100%;
+                overflow-x: auto;
             }
 
             .chain-row {
