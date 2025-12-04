@@ -489,10 +489,7 @@ export const HTML_CONTENT = `<!DOCTYPE html>
             }
 
             .level-badge-mobile {
-                display: block !important;
-                font-weight: bold;
-                font-size: 14px;
-                color: #4CAF50;
+                display: none !important;  /* Auch mobile Badge ausblenden */
             }
 
             /* Einheitliche Abstände für alle Zeilen */
