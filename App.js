@@ -19,39 +19,9 @@ export default function App() {
         const htmlAsset = require('./assets/index.html');
         setHtmlContent({ type: 'url', data: htmlAsset });
       } else {
-        // Auf Mobile: Verwende den eingebetteten HTML-String
-        // Lade Bilder als Assets
-        const avatarModules = [
-          require('./assets/ninjamale1.png'),
-          require('./assets/ninjamale2.png'),
-          require('./assets/ninjamale3.png'),
-          require('./assets/ninjamale4.png'),
-          require('./assets/ninjafemale1.png'),
-          require('./assets/ninjafemale2.png'),
-          require('./assets/ninjafemale3.png'),
-          require('./assets/ninjafemale4.png'),
-        ];
-
-        const avatarAssets = await Asset.loadAsync(avatarModules);
-
-        // Ersetze Bildpfade im HTML
-        const avatarNames = [
-          'ninjamale1', 'ninjamale2', 'ninjamale3', 'ninjamale4',
-          'ninjafemale1', 'ninjafemale2', 'ninjafemale3', 'ninjafemale4'
-        ];
-
-        let modifiedHtml = HTML_CONTENT;
-        avatarNames.forEach((name, index) => {
-          const asset = avatarAssets[index];
-          const uri = asset.localUri || asset.uri;
-          console.log(`Replacing assets/${name}.png with ${uri}`);
-          modifiedHtml = modifiedHtml.replace(
-            new RegExp(`assets/${name}\\.png`, 'g'),
-            uri
-          );
-        });
-
-        setHtmlContent({ type: 'html', data: modifiedHtml });
+        // Auf Mobile: Verwende den eingebetteten HTML-String mit Base64-Bildern
+        // Bilder sind bereits als Base64 im HTML_CONTENT eingebettet
+        setHtmlContent({ type: 'html', data: HTML_CONTENT });
       }
     } catch (error) {
       console.error('Error loading HTML:', error);

@@ -3,18 +3,26 @@
 **WICHTIG**: Bei JEDEM Build MUSS die versionCode erhöht werden!
 
 ## Aktueller Stand
-- **Letzte versionCode**: 18
-- **Letzte version**: 1.0.18
+- **Letzte versionCode**: 19
+- **Letzte version**: 1.0.19
 - **Datum**: 2025-12-04
 
 ## Build Historie
+
+### Version 19 (versionCode 19) - 2025-12-04
+- Fix: Base64-Bilder direkt im HTML einbetten
+- Entfernt: Asset.loadAsync() Ansatz (funktionierte nicht in WebView)
+- Bilder werden zur Build-Zeit in Base64 konvertiert
+- Vereinfachte App.js ohne dynamisches Asset-Loading
+- Ziel: Avatare sollen endlich laden und JavaScript funktionieren
+- Status: In Arbeit
 
 ### Version 18 (versionCode 18) - 2025-12-04
 - Improve mobile phone layout
 - Avatar zwischen Buttons und Aufgaben auf Phones
 - Level-Badge für Mobile hinzugefügt
 - Bessere Bildschirmnutzung auf Phones
-- Status: In Arbeit
+- NICHT GESTARTET (Version 17 wurde als 18 markiert)
 
 ### Version 17 (versionCode 17) - 2025-12-04
 - Fix: WebView permissions und Asset-Loading
@@ -64,4 +72,4 @@
 5. Committe die Änderungen
 6. DANN erst: `eas build --platform android --profile production`
 
-**NÄCHSTE versionCode muss sein: 19**
+**NÄCHSTE versionCode muss sein: 20**
