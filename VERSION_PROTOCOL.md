@@ -3,11 +3,20 @@
 **WICHTIG**: Bei JEDEM Build MUSS die versionCode erhöht werden!
 
 ## Aktueller Stand
-- **Letzte versionCode**: 20
-- **Letzte version**: 1.0.20
+- **Letzte versionCode**: 21
+- **Letzte version**: 1.0.21
 - **Datum**: 2025-12-04
 
 ## Build Historie
+
+### Version 21 (versionCode 21) - 2025-12-04
+- Fix: Variable hoisting - currentExercises/errorCards/challengeCards ganz nach oben verschoben
+- Fix: Gender-Button (M/F) rechts vom Avatar auf Mobile (flex-direction: row)
+- Fix: Level-Badge komplett ausgeblendet auf Mobile (display: none)
+- Fix: Landscape Layout - Avatar versteckt, Container volle Breite
+- Alle kritischen Fixes vereint
+- Ziel: Funktionierende App mit Rechenaufgaben
+- Status: In Arbeit
 
 ### Version 20 (versionCode 20) - 2025-12-04
 - Fix: Portrait Layout (Level-Badge untereinander statt nebeneinander)
@@ -83,4 +92,4 @@
 5. Committe die Änderungen
 6. DANN erst: `eas build --platform android --profile production`
 
-**NÄCHSTE versionCode muss sein: 21**
+**NÄCHSTE versionCode muss sein: 22**

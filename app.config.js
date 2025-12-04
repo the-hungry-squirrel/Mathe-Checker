@@ -2,7 +2,7 @@ export default {
   expo: {
     name: "MatheChecker",
     slug: "mathechecker",
-    version: "1.0.20",
+    version: "1.0.21",
     orientation: "default",
     icon: "./assets/icon.png",
     userInterfaceStyle: "light",
@@ -22,7 +22,7 @@ export default {
         backgroundColor: "#4CAF50"
       },
       package: "com.mathechecker",
-      versionCode: 20,
+      versionCode: 21,
       // Explizite Tablet-Unterstützung
       permissions: [],
       // AndroidManifest.xml Modifikationen
