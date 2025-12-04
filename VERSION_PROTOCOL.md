@@ -3,17 +3,24 @@
 **WICHTIG**: Bei JEDEM Build MUSS die versionCode erhöht werden!
 
 ## Aktueller Stand
-- **Letzte versionCode**: 15
-- **Letzte version**: 1.0.15
+- **Letzte versionCode**: 16
+- **Letzte version**: 1.0.16
 - **Datum**: 2025-12-04
 
 ## Build Historie
 
+### Version 16 (versionCode 16) - 2025-12-04
+- Fix: Inline HTML string approach
+- HTML-Content wird zur Build-Zeit als JS-String eingebettet
+- Bilder werden als Assets geladen und Pfade im HTML ersetzt
+- Vermeidet alle Asset-Loading-Probleme
+- Status: In Arbeit
+
 ### Version 15 (versionCode 15) - 2025-12-04
 - Fix: WebView loading using FileSystem approach
 - HTML und Bilder werden ins lokale Dateisystem kopiert
-- Vermeidet ERR_CLEARTEXT_NOT_PERMITTED Fehler
-- Status: In Arbeit
+- FEHLER: Whitescreen auf Mobile und Tablet
+- Status: Fehlgeschlagen
 
 ### Version 14 (versionCode 14) - 2025-12-04
 - Versuch: Asset.loadAsync() Ansatz
@@ -43,4 +50,4 @@
 5. Committe die Änderungen
 6. DANN erst: `eas build --platform android --profile production`
 
-**NÄCHSTE versionCode muss sein: 16**
+**NÄCHSTE versionCode muss sein: 17**

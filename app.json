@@ -2,7 +2,7 @@
   "expo": {
     "name": "MatheChecker",
     "slug": "mathechecker",
-    "version": "1.0.15",
+    "version": "1.0.16",
     "orientation": "default",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -22,7 +22,7 @@
         "backgroundColor": "#4CAF50"
       },
       "package": "com.mathechecker",
-      "versionCode": 15
+      "versionCode": 16
     },
     "web": {
       "favicon": "./assets/icon.png"

@@ -1,12 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View, Platform } from 'react-native';
 import { WebView } from 'react-native-webview';
-import * as FileSystem from 'expo-file-system';
 import { Asset } from 'expo-asset';
 import { useEffect, useState } from 'react';
+import { HTML_CONTENT } from './htmlContent';
 
 export default function App() {
-  const [htmlUri, setHtmlUri] = useState(null);
+  const [htmlContent, setHtmlContent] = useState(null);
 
   useEffect(() => {
     loadHtml();
@@ -17,13 +17,10 @@ export default function App() {
       if (Platform.OS === 'web') {
         // Im Web: Lade HTML direkt
         const htmlAsset = require('./assets/index.html');
-        setHtmlUri(htmlAsset);
+        setHtmlContent({ type: 'url', data: htmlAsset });
       } else {
-        // Auf Mobile: Kopiere HTML und Bilder ins lokale Dateisystem
-        const htmlAsset = Asset.fromModule(require('./assets/index.html'));
-        await htmlAsset.downloadAsync();
-
-        // Kopiere Bilder
+        // Auf Mobile: Verwende den eingebetteten HTML-String
+        // Lade Bilder als Assets
         const avatarAssets = [
           Asset.fromModule(require('./assets/ninjamale1.png')),
           Asset.fromModule(require('./assets/ninjamale2.png')),
@@ -37,29 +34,22 @@ export default function App() {
 
         await Promise.all(avatarAssets.map(asset => asset.downloadAsync()));
 
-        // Lese HTML-Inhalt
-        const htmlContent = await FileSystem.readAsStringAsync(htmlAsset.localUri);
-
-        // Ersetze Bildpfade
+        // Ersetze Bildpfade im HTML
         const avatarNames = [
           'ninjamale1', 'ninjamale2', 'ninjamale3', 'ninjamale4',
           'ninjafemale1', 'ninjafemale2', 'ninjafemale3', 'ninjafemale4'
         ];
 
-        let modifiedHtml = htmlContent;
+        let modifiedHtml = HTML_CONTENT;
         avatarNames.forEach((name, index) => {
           const asset = avatarAssets[index];
           modifiedHtml = modifiedHtml.replace(
             new RegExp(`assets/${name}\\.png`, 'g'),
-            asset.localUri
+            asset.localUri || asset.uri
           );
         });
 
-        // Speichere modifizierte HTML-Datei
-        const modifiedHtmlPath = `${FileSystem.documentDirectory}index.html`;
-        await FileSystem.writeAsStringAsync(modifiedHtmlPath, modifiedHtml);
-
-        setHtmlUri(modifiedHtmlPath);
+        setHtmlContent({ type: 'html', data: modifiedHtml });
       }
     } catch (error) {
       console.error('Error loading HTML:', error);
@@ -71,9 +61,9 @@ export default function App() {
     return (
       <View style={styles.container}>
         <StatusBar hidden={true} />
-        {htmlUri ? (
+        {htmlContent && htmlContent.type === 'url' ? (
           <iframe
-            src={htmlUri}
+            src={htmlContent.data}
             style={{
               width: '100%',
               height: '100vh',
@@ -85,18 +75,17 @@ export default function App() {
     );
   }
 
-  // Auf Mobile: WebView verwenden
+  // Auf Mobile: WebView mit inline HTML
   return (
     <View style={styles.container}>
       <StatusBar hidden={true} />
-      {htmlUri ? (
+      {htmlContent && htmlContent.type === 'html' ? (
         <WebView
           originWhitelist={['*']}
-          source={{ uri: htmlUri }}
+          source={{ html: htmlContent.data }}
           style={styles.webview}
           javaScriptEnabled={true}
           domStorageEnabled={true}
-          allowFileAccess={true}
         />
       ) : null}
     </View>
